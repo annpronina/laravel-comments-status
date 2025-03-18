@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller implements HasMiddleware
 {
@@ -21,7 +23,7 @@ class PostController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return Post()->all();
+        return Post::all();
     }
 
     /**
@@ -32,10 +34,16 @@ class PostController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
-            'password' => 'required'
+           // 'password' => 'required'
         ]);
 
-        $post = Post::create($fields);
+        // $post = Post::create([
+        //     'user_id' => Auth::id(),
+        //     'title' => $request->title,
+        //     'body' => $request->body
+        // ]);
+        
+        $post = $request->user()->posts()->create($fields);
 
         return $post;
     }
