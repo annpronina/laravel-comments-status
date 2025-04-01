@@ -32,20 +32,18 @@ class PostController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
-            'status_id'=> 'required|exists:post_statuses,id'
-           // 'password' => 'required'
+            'post_statuses_id'=> 'required|exists:post_statuses,id'
         ]);
 
-        // $post = Post::create([
-        //     'user_id' => Auth::id(),
-        //     'title' => $request->title,
-        //     'body' => $request->body
-        // ]);
-        
-        $post = $request->user()->posts()->create($fields);
+        $post = Post::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'body' => $request->body,
+            'post_statuses_id' => $request->status_id
+        ]);
 
         return $post;
     }
@@ -68,7 +66,7 @@ class PostController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
-            'status_id' => 'nullable|exists:post_statuses,id'
+            'post_statuses_id' => 'nullable|exists:post_statuses,id'
         ]);
 
         $post->update($fields);

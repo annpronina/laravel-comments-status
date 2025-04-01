@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('post_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status_id')->unique();
+            $table->string('status_name')->unique();
             $table->timestamps();
         });
 
         DB::table('post_statuses')->insert([
-            ['status_id' => 'public'],
-            ['status_id' => 'private'],
+            ['status_name' => 'public'],
+            ['status_name' => 'private'],
         ]);
+
+        Schema::table('posts', function (Blueprint $table) {
+            $table->foreignId('post_statuses_id')->constrained()->cascadeOnDelete();
+        });
     }
 
     /**
@@ -29,5 +33,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('post_statuses');
+
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['post_statuses_id']);
+            $table->dropColumn('post_statuses_id');
+        });
     }
 };

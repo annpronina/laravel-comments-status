@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostStatus extends Model
 {
-    protected $fillable = ['status_id'];
+    protected $fillable = ['status_name'];
 
     const STATUS_PUBLIC = 'public';
     const STATUS_PRIVATE = 'private';
