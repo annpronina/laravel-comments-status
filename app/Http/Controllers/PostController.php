@@ -9,6 +9,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PostStatus;
 
 class PostController extends Controller implements HasMiddleware
 {
@@ -34,6 +35,7 @@ class PostController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
+            'status_id'=> 'required|exists:post_statuses,id'
            // 'password' => 'required'
         ]);
 
@@ -53,6 +55,7 @@ class PostController extends Controller implements HasMiddleware
      */
     public function show(Post $post)
     {
+        //Gate::authorize('view', $post);
         return $post;
     }
 
@@ -64,7 +67,8 @@ class PostController extends Controller implements HasMiddleware
         Gate::authorize('modify', $post);
         $fields = $request->validate([
             'title' => 'required|max:255',
-            'body' => 'required'
+            'body' => 'required',
+            'status_id' => 'nullable|exists:post_statuses,id'
         ]);
 
         $post->update($fields);

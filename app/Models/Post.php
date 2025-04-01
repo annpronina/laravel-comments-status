@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'user_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'status_id'];
 
     public function user() {
        return $this->belongsTo(User::class);
@@ -17,5 +17,9 @@ class Post extends Model
 
     public function comments() {
         return $this->hasMany(Comment::class);
+    }
+
+    public function status() {
+        return $this->belongsTo(PostStatus::class);
     }
 }

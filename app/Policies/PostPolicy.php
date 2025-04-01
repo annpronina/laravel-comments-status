@@ -13,4 +13,10 @@ class PostPolicy
         return $user->id === $post->user_id ? Response::allow() : Response::deny("You do not own this post");
     }
 
+    //public function view(User $user, Post $post): bool
+    //{
+    //    if ($post->isPrivate && $user->id !== $post->user_id) return false;
+    //    return true;
+    //}
+
 }

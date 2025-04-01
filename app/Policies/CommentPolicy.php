@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Models\Post;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class CommentPolicy
@@ -12,5 +13,4 @@ class CommentPolicy
     {
         return $user->id === $comment->user_id ? Response::allow() : Response::deny("You do not own this post");
     }
-
 }
