@@ -53,16 +53,4 @@ class AuthController extends Controller
         ];
     }
 
-    public function assignRole(Request $request, User $user) {
-
-            // if (!$request->user()->hasRole('admin')) {
-            //     return response()->json(['message' => 'Unauthorized']);
-            // }
-
-        $request->validate([
-            'role_id' => 'required|exists:roles,id'
-        ]);
-        $user->roles()->attach($request->role_id);
-        return response()->json(['message' => 'Role assigned successfully']);
-    }
 }
